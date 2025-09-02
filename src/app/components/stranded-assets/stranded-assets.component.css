@@ -1,0 +1,411 @@
+/* stranded-assets.component.css */
+
+/* Energy Status Card Animation */
+.energy-status-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.energy-status-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.energy-status-card:hover::before {
+  left: 100%;
+}
+
+/* Shimmer Effect */
+.shimmer-effect {
+  background-size: 200% 200%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Chart Container Styles */
+canvas {
+  border-radius: 8px;
+}
+
+/* Custom Chart Point Styles */
+.chart-container {
+  position: relative;
+}
+
+.chart-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    transparent 100%
+  );
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .lg\:col-span-2,
+  .lg\:col-span-1,
+  .lg\:col-span-4 {
+    grid-column: span 1;
+  }
+  
+  /* Mobile-specific adjustments */
+  .energy-status-card {
+    padding: 1rem;
+  }
+  
+  .energy-status-card h3 {
+    font-size: 1rem;
+  }
+  
+  .energy-status-card p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .p-8 {
+    padding: 1rem;
+  }
+  
+  .px-8 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .py-6 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .print-light {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .print-light * {
+    background: transparent !important;
+    color: black !important;
+  }
+  
+  .border {
+    border-color: #ccc !important;
+  }
+  
+  .shadow-2xl,
+  .shadow-lg {
+    box-shadow: none !important;
+  }
+}
+
+/* Animation Enhancements */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom hover effects for cards */
+.energy-status-card:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+/* Enhanced backdrop blur for modern browsers */
+@supports (backdrop-filter: blur(12px)) {
+  .backdrop-blur-sm {
+    backdrop-filter: blur(12px);
+  }
+}
+
+/* Fallback for older browsers */
+@supports not (backdrop-filter: blur(12px)) {
+  .backdrop-blur-sm {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Focus states for accessibility */
+.energy-status-card:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+}
+
+/* Dark mode specific enhancements */
+@media (prefers-color-scheme: dark) {
+  .text-white {
+    color: #f8fafc;
+  }
+  
+  .text-gray-300 {
+    color: #cbd5e1;
+  }
+  
+  .text-gray-400 {
+    color: #94a3b8;
+  }
+}
+
+/* Apple-Style Interactive Legend */
+.apple-legend {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.legend-container {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 8px;
+  gap: 4px;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.legend-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 12px;
+}
+
+.legend-item:hover::before {
+  opacity: 1;
+}
+
+.legend-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.legend-item.inactive {
+  opacity: 0.5;
+  background: rgba(0, 0, 0, 0.1);
+  transform: none;
+  box-shadow: none;
+}
+
+.legend-item.inactive:hover {
+  opacity: 0.7;
+}
+
+/* Active state for clicking */
+.legend-item:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 
+    0 0 0 2px rgba(255, 255, 255, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.legend-dot::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), transparent 50%);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.legend-dot.dimmed {
+  opacity: 0.4;
+  filter: grayscale(50%);
+  transform: scale(0.9);
+}
+
+.legend-dot.dimmed::after {
+  opacity: 0.3;
+}
+
+.legend-dot.single-family {
+  background: linear-gradient(135deg, #B9FBC0 0%, #9AE6B4 100%);
+  box-shadow: 
+    0 0 0 2px rgba(185, 251, 192, 0.3),
+    0 2px 8px rgba(185, 251, 192, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.legend-dot.multi-family {
+  background: linear-gradient(135deg, #0090FF 0%, #0080E6 100%);
+  box-shadow: 
+    0 0 0 2px rgba(0, 144, 255, 0.3),
+    0 2px 8px rgba(0, 144, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.legend-item:hover .legend-dot:not(.dimmed) {
+  transform: scale(1.1);
+  box-shadow: 
+    0 0 0 3px rgba(255, 255, 255, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.legend-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.legend-label.dimmed {
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+.legend-item:hover .legend-label:not(.dimmed) {
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Click feedback animation */
+.legend-item:active .legend-dot {
+  transform: scale(0.95);
+}
+
+/* Responsive adjustments for legend */
+@media (max-width: 640px) {
+  .legend-container {
+    padding: 6px;
+    gap: 2px;
+  }
+  
+  .legend-item {
+    padding: 6px 12px;
+    gap: 6px;
+  }
+  
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .legend-dot::after {
+    width: 6px;
+    height: 6px;
+    top: 2px;
+    left: 2px;
+  }
+  
+  .legend-label {
+    font-size: 12px;
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .legend-container {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .legend-item.active {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* Animation for legend appearance */
+.apple-legend {
+  animation: legendFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.9s both;
+}
+
+@keyframes legendFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

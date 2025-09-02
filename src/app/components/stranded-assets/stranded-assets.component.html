@@ -1,0 +1,195 @@
+<!-- stranded-assets.component.html -->
+<div class="relative z-10 p-4 md:p-8">
+  <div class="max-w-[90rem] mx-auto">
+    
+    <!-- Main Stranded Assets Component -->
+    <div class="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden border border-white/10 hover:border-white/20 hover:bg-white/15 transition-all duration-1000 ease-out print-light"
+         [ngClass]="{
+           'opacity-0 translate-y-8': !mounted,
+           'opacity-100 translate-y-0': mounted
+         }">
+      
+      <!-- Header Section -->
+      <div class="bg-gradient-to-r from-slate-700/90 to-slate-800/90 px-8 py-6 relative overflow-hidden border-b border-white/10">
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-700/80 to-slate-800/80 backdrop-blur-sm"></div>
+        <div class="relative z-10">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-3">
+              <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-white">
+              Roadmap Stranded Asset & CRREM-Konformität - {{ propertyDisplayName }}
+            </h1>
+          </div>
+          <div class="text-sm text-gray-300" *ngIf="propertyTypeConfig">
+            Immobilientyp: {{ currentPropertyType === 'single' ? 'Einfamilienhaus' : 'Mehrfamilienhaus' }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="isLoadingData" class="p-8 text-center">
+        <div class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm text-white transition ease-in-out duration-150 cursor-not-allowed">
+          <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Daten werden geladen...
+        </div>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="dataLoadError && !isLoadingData" class="p-8 text-center">
+        <div class="text-red-400 mb-2">Fehler beim Laden der Daten</div>
+        <div class="text-gray-300 text-sm">Fallback-Daten werden verwendet</div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="p-8" *ngIf="!isLoadingData">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
+          
+          <!-- Status Information Cards Section -->
+          <div class="lg:col-span-1 flex flex-col h-full">
+            <div class="flex items-center mb-6">
+              <div class="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center mr-3">
+                <svg class="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <h2 class="text-xl font-bold text-white">Status & Kennzahlen</h2>
+            </div>
+            <div class="flex-1 flex flex-col justify-end">
+              <!-- Info Cards -->
+              <div class="space-y-4 flex-1 flex flex-col justify-end">
+                <div *ngFor="let info of strandedAssetInfos; let i = index; trackBy: trackByIndex"
+                     class="energy-status-card bg-gradient-to-r rounded-xl p-6 relative overflow-hidden shimmer-effect transition-all duration-800 ease-out border backdrop-blur-sm hover:shadow-lg"
+                     [ngClass]="getInfoCardClass(info.type) + ' ' + (mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5')"
+                     [style.transition-delay]="getAnimationDelay(i)">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <h3 class="text-lg font-bold mb-1" [ngClass]="getInfoCardTextClass(info.type)">{{info.title}}</h3>
+                      <p class="text-sm font-medium" [ngClass]="getInfoCardDescClass(info.type)">{{info.description}}</p>
+                    </div>
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center bg-white/10">
+                      <svg class="w-6 h-6" [ngClass]="getInfoCardTextClass(info.type)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="info.icon"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Chart Section -->
+          <div class="lg:col-span-2 flex flex-col">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center">
+                <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
+                  <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 3v18h18v-2H5V3H3zm4 14l3-3 4 4 5-5v3h3V9h-7v3l-5 5-4-4-3 3v2z"/>
+                  </svg>
+                </div>
+                <h2 class="text-xl font-bold text-white">{{ propertyDisplayName }} Decarbonisation Path</h2>
+              </div>
+              
+              <!-- Chart Type Dropdown -->
+              <div class="relative">
+                <select 
+                [value]="selectedChartType"
+                (change)="onChartTypeChange($event)"
+                class="bg-slate-700/90 border border-slate-600/50 text-white text-sm rounded-lg px-3 py-2 backdrop-blur-sm focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-300 hover:bg-slate-600/90">
+                <option value="emissions">CO₂-Istwert</option>
+                <option value="energy">Energie-Istwert</option>
+              </select>
+              </div>
+            </div>
+            
+            <!-- Chart Container -->
+            <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 flex-1 border border-white/10 transition-all duration-800 ease-out"
+                [ngClass]="{
+                  'opacity-30 scale-90': !mounted,
+                  'opacity-100 scale-100': mounted
+                }"
+                style="transition-delay: 700ms;">
+
+              <!-- Property Type Indicator -->
+              <div class="property-type-indicator mb-6" *ngIf="propertyTypeConfig">
+                <div class="indicator-container">
+                  <div class="indicator-item active">
+                    <div class="indicator-dot" 
+                        [ngClass]="currentPropertyType === 'single' ? 'single-family' : 'multi-family'"></div>
+                    <span class="indicator-label">{{ propertyDisplayName }}</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Chart Area -->
+              <div class="relative h-64 mb-4">
+                <canvas #decarbChart class="w-full h-full"></canvas>
+              </div>
+              
+              <!-- Chart description -->
+              <div class="mt-4 p-3 bg-slate-800/30 rounded-lg">
+                <p class="text-xs text-gray-300 leading-relaxed" *ngIf="selectedChartType === 'emissions'">
+                  Der {{ propertyDisplayName }} Dekarbonisierungspfad zeigt die notwendige Reduzierung der CO2-Intensität von 2025 bis 2040. 
+                  Der kritische Stranding Point liegt bei 2029 mit 29.2 equ./m².
+                </p>
+                <p class="text-xs text-gray-300 leading-relaxed" *ngIf="selectedChartType === 'energy'">
+                  Der {{ propertyDisplayName }} Energieeffizienz-Pfad zeigt die notwendige Reduzierung der Energie-Intensität von 2025 bis 2040. 
+                  Der kritische Stranding Point liegt bei 2029 mit 110 kWh/m²a.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Risk Analysis Section -->
+          <div class="lg:col-span-1 flex flex-col h-full">
+            <div class="flex items-center mb-6">
+              <div class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center mr-3">
+                <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <h2 class="text-xl font-bold text-white">Stranded Assets Risiken</h2>
+            </div>
+            <div class="flex-1 flex flex-col justify-end">
+              <div class="space-y-4 flex-1 flex flex-col justify-end">
+                <div *ngFor="let description of riskDescriptions; let i = index; trackBy: trackByIndex"
+                     class="bg-gradient-to-r from-red-600/20 to-red-700/20 rounded-xl p-4 border border-red-500/30 transition-all duration-800 ease-out"
+                     [ngClass]="{
+                       'opacity-0 translate-x-5': !mounted,
+                       'opacity-100 translate-x-0': mounted
+                     }"
+                     [style.transition-delay]="getAnimationDelay(i + 3)">
+                  <p class="text-sm text-red-200 leading-relaxed">{{description}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Width Action Required Section -->
+        <div class="w-full bg-gradient-to-r from-orange-600/20 to-orange-700/20 rounded-xl p-6 border border-orange-500/30 transition-all duration-800 ease-out"
+             [ngClass]="{
+               'opacity-0 translate-y-5': !mounted,
+               'opacity-100 translate-y-0': mounted
+             }"
+             style="transition-delay: 900ms;">
+          <div class="flex items-center mb-3">
+            <svg class="w-5 h-5 text-orange-400 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            <h3 class="text-orange-300 font-bold">Handlungsbedarf für {{ propertyDisplayName }}</h3>
+          </div>
+          <p class="text-sm text-orange-200 leading-relaxed">
+            Um das Stranding {{ currentPropertyType === 'single' ? 'von Einfamilienhäusern' : 'von Mehrfamilienhäusern' }} zu vermeiden, 
+            Energieeffizienzmaßnahmen erforderlich. 
+            Die CRREM-Konformität kann durch gezielte Modernisierung erreicht werden.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

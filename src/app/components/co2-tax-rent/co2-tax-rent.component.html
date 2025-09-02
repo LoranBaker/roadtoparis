@@ -1,0 +1,153 @@
+<!-- co2-tax-rent-enhanced.component.html - Updated with 1:2:2 Ratio -->
+<div class="relative z-10 p-4 md:p-8">
+  <div class="max-w-[90rem] mx-auto">
+    
+    <!-- Main CO2 Tax and Rent Component -->
+    <div class="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden border border-white/10 hover:border-white/20 hover:bg-white/15 transition-all duration-1000 ease-out print-light"
+         [ngClass]="{
+           'opacity-0 translate-y-8': !mounted,
+           'opacity-100 translate-y-0': mounted
+         }">
+      
+      <!-- Header Section -->
+      <div class="bg-gradient-to-r from-slate-700/90 to-slate-800/90 px-8 py-6 relative overflow-hidden border-b border-white/10">
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-700/80 to-slate-800/80 backdrop-blur-sm"></div>
+        <div class="relative z-10">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center mr-3">
+              <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7 14l3-3 3 3 7-7v6h-6M5 18v2h14v-2H5z"/>
+              </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-white">Steigende CO2-Steuer und sinkende Mietrendite</h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Grid - Updated to 1:2:2 ratio using CSS Grid -->
+      <div class="p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+          
+          <!-- CO2 Tax Costs Section - Takes 1 part (1/5 of grid) -->
+          <div class="lg:col-span-1">
+            <div class="flex items-center mb-6">
+              <div class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center mr-3">
+                <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+              </div>
+              <h2 class="text-xl font-bold text-white">Kosten für CO2-Steuer bis 2040</h2>
+            </div>
+            
+            <div class="space-y-4">
+              
+              <!-- CO2 Cost Cards -->
+              <div *ngFor="let taxData of co2TaxProjections; let i = index; trackBy: trackByYear"
+                   class="energy-status-card bg-gradient-to-r rounded-xl p-6 relative overflow-hidden shimmer-effect transition-all duration-800 ease-out border backdrop-blur-sm hover:shadow-lg"
+                   [ngClass]="getTaxCardClass(taxData.year) + ' ' + (mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-5')"
+                   [style.transition-delay]="getAnimationDelay(i)">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-cyan-300 text-lg font-bold mb-1">{{formatCurrency(taxData.costPerYear)}} € p.a.</h3>
+                    <p class="text-blue-200 text-sm font-medium">{{taxData.description}}</p>
+                  </div>
+                  <div class="w-12 h-12 rounded-full flex items-center justify-center"
+                       [ngClass]="getYearIndicatorClass(taxData.year)">
+                    <span class="font-bold text-sm">{{taxData.year}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sources -->
+              <div class="mt-6 p-4 bg-slate-800/50 rounded-lg border border-slate-600/30">
+                <h4 class="text-white font-semibold mb-2 text-sm">Quellen:</h4>
+                <div class="text-xs text-slate-300 space-y-1">
+                  <p>* frei handelbare Preise</p>
+                  <p>** wissenschaftliche Dienste / Bundestag</p>
+                  <p>*** Haufe Immobilienwirtschaft</p>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+
+    <!-- Chart Section - Takes 2 parts (2/5 of grid) -->
+<div class="lg:col-span-2 flex flex-col">
+  <div class="flex items-center mb-6">
+    <div class="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center mr-3">
+      <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M3 3v18h18v-2H5V3H3zm4 14l3-3 4 4 5-5v3h3V9h-7v3l-5 5-4-4-3 3v2z"/>
+      </svg>
+    </div>
+    <h2 class="text-xl font-bold text-white">Überblick der jährlichen CO2-Steuer</h2>
+  </div>
+  
+  <!-- Chart Container - Now uses full available height -->
+  <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 flex-1 flex flex-col border border-white/10 transition-all duration-800 ease-out"
+       [ngClass]="{
+         'opacity-30 scale-90': !mounted,
+         'opacity-100 scale-100': mounted
+       }"
+       style="transition-delay: 700ms;">
+    
+    <!-- Chart Area - Now takes full available space -->
+    <div class="relative flex-1 mb-4 min-h-0">
+      <canvas #co2Chart class="w-full h-full"></canvas>
+    </div>
+    
+    <!-- Chart description - Fixed at bottom -->
+    <div class="mt-4 p-3 bg-slate-800/30 rounded-lg flex-shrink-0">
+      <p class="text-xs text-gray-300 leading-relaxed">
+        Die o.a. Kosten je Tonne entsprechen den wachsenden CO2-Abgaben, wenn Sie keine ESG Modernisierungsmaßnahmen durchführen. Die Kosten sind nach §10 Abs.2 BEHG gesetzlich festgesetzt. Ab dem Jahr 2027 wird der Preis je Tonne frei handelbar sein, was zu schmerzlichen Preissteigerungen führen kann.
+      </p>
+    </div>
+  </div>
+</div>
+   <!-- Rent Analysis Section - Takes 2 parts (2/5 of grid) -->
+<div class="lg:col-span-2 flex flex-col">
+  <div class="flex items-center mb-6">
+    <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
+      <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    </div>
+    <h2 class="text-xl font-bold text-white">Ihre Mietrendite</h2>
+  </div>
+  
+  <!-- Rent Chart - Now uses full available height -->
+  <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 flex-1 flex flex-col border border-white/10 transition-all duration-800 ease-out"
+       [ngClass]="{
+         'opacity-0 translate-x-5': !mounted,
+         'opacity-100 translate-x-0': mounted
+       }"
+       style="transition-delay: 800ms;">
+    
+    <!-- Chart Area - Now takes full available space -->
+    <div class="relative flex-1 min-h-0">
+      <canvas #rentChart class="w-full h-full"></canvas>
+    </div>
+  </div>
+
+<!-- Rent Description - Fixed at bottom -->
+<div class="bg-gradient-to-r from-green-600/20 to-green-700/20 rounded-xl p-6 border border-green-500/30 transition-all duration-800 ease-out flex-shrink-0 mt-6"
+     [ngClass]="{
+       'opacity-0 translate-x-5': !mounted,
+       'opacity-100 translate-x-0': mounted
+     }"
+     style="transition-delay: 900ms;">
+  <p class="text-sm text-gray-200 leading-relaxed mb-3">
+    <strong class="text-blue-300">30% bis 2030 GHG Reduction Target</strong>
+  </p>
+  <p class="text-sm text-gray-200 leading-relaxed mb-3">
+    <strong class="text-green-300">Carbon Neutral by 2050</strong>
+  </p>
+  <p class="text-base text-white font-semibold">
+    Ihre aktuelle Mietrendite kann aufgrund der steigenden CO2-Steuer bis zum Jahre 2033 um <span class="text-red-400 font-bold">{{ get2033WenigerPercentage() }}%</span> sinken und im Jahr 2040 um <span class="text-red-400 font-bold">{{ get2040WenigerPercentage() }}%</span>, was sich wiederum auf den Wert Ihrer Immobilie niederschlagen wird!
+  </p>
+</div>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

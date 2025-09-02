@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { EnergyDashboardWrapperComponent } from "./energy-dashboard-wrapper/energy-dashboard-wrapper.component";
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, EnergyDashboardWrapperComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

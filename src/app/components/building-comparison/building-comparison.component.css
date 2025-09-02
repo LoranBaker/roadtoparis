@@ -1,0 +1,335 @@
+/* building-comparison.component.css */
+
+/* Energy Status Card Animation */
+.energy-status-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.energy-status-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.energy-status-card:hover::before {
+  left: 100%;
+}
+
+/* Shimmer Effect */
+.shimmer-effect {
+  background-size: 200% 200%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Chart Container Styles */
+canvas {
+  border-radius: 8px;
+}
+
+/* Speedometer Chart Specific Styles */
+.chart-container {
+  position: relative;
+}
+
+.chart-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    transparent 100%
+  );
+}
+
+/* Enhanced Environmental Impact Icons */
+.energy-status-card svg {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  transition: transform 0.3s ease;
+}
+
+.energy-status-card:hover svg {
+  transform: scale(1.1);
+}
+
+/* Custom number formatting for large values */
+.impact-value {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.025em;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .lg\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .lg\:col-span-2,
+  .lg\:col-span-1,
+  .lg\:col-span-4 {
+    grid-column: span 1;
+  }
+  
+  /* Mobile-specific adjustments */
+  .energy-status-card {
+    padding: 1rem;
+  }
+  
+  .energy-status-card h3 {
+    font-size: 1rem;
+  }
+  
+  .energy-status-card p {
+    font-size: 0.8rem;
+  }
+  
+  /* Adjust large numbers for mobile */
+  .text-2xl {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .p-8 {
+    padding: 1rem;
+  }
+  
+  .px-8 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .py-6 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  /* Stack impact cards vertically on small screens */
+  .energy-status-card .flex {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .energy-status-card .ml-4 {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .print-light {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .print-light * {
+    background: transparent !important;
+    color: black !important;
+  }
+  
+  .border {
+    border-color: #ccc !important;
+  }
+  
+  .shadow-2xl,
+  .shadow-lg {
+    box-shadow: none !important;
+  }
+  
+  /* Ensure chart is visible in print */
+  canvas {
+    border: 1px solid #ccc;
+  }
+}
+
+/* Animation Enhancements */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom hover effects for cards */
+.energy-status-card:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
+
+/* Enhanced backdrop blur for modern browsers */
+@supports (backdrop-filter: blur(12px)) {
+  .backdrop-blur-sm {
+    backdrop-filter: blur(12px);
+  }
+}
+
+/* Fallback for older browsers */
+@supports not (backdrop-filter: blur(12px)) {
+  .backdrop-blur-sm {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Focus states for accessibility */
+.energy-status-card:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+}
+
+/* Energy efficiency class indicator styles */
+.energy-class-indicator {
+  position: relative;
+  overflow: hidden;
+}
+
+.energy-class-indicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.energy-class-indicator:hover::before {
+  opacity: 1;
+}
+
+/* Environmental impact value highlighting */
+.impact-value-large {
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Chart legend custom styling */
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.chart-legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.chart-legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 0.25rem;
+}
+
+/* Dark mode specific enhancements */
+@media (prefers-color-scheme: dark) {
+  .text-white {
+    color: #f8fafc;
+  }
+  
+  .text-gray-300 {
+    color: #cbd5e1;
+  }
+  
+  .text-gray-400 {
+    color: #94a3b8;
+  }
+  
+  /* Enhanced contrast for environmental impact cards */
+  .energy-status-card {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .border {
+    border-width: 2px;
+  }
+  
+  .energy-status-card {
+    border-width: 2px;
+  }
+  
+  .text-white {
+    color: #ffffff;
+  }
+  
+  .bg-white\/10 {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-effect {
+    animation: none;
+  }
+  
+  .transition-all {
+    transition: none;
+  }
+  
+  .energy-status-card:hover {
+    transform: none;
+  }
+  
+  .energy-status-card:hover svg {
+    transform: none;
+  }
+}

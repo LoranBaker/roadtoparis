@@ -1,0 +1,700 @@
+<!-- energy-performance.component.html - Updated with Sustainability Matrix -->
+<div class="relative z-10 p-4 md:p-8">
+  <div class="max-w-[90rem] mx-auto">
+      
+      <!-- Main Content -->
+      <div *ngIf="isDataLoaded()">
+        
+        <!-- Main Energy Performance Report Card -->
+        <div class="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden border border-white/10 hover:border-white/20 hover:bg-white/15 transition-all duration-1000 ease-out print-light"
+             [ngClass]="{
+               'opacity-0 translate-y-8': !mounted,
+               'opacity-100 translate-y-0': mounted
+             }">
+          
+          <!-- Header Section -->
+          <div class="bg-gradient-to-r from-slate-700/90 to-slate-800/90 px-8 py-6 relative overflow-hidden border-b border-white/10">
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-700/80 to-slate-800/80 backdrop-blur-sm"></div>
+            <div class="relative z-10 flex items-center justify-between">
+              <div>
+                <div class="flex items-center space-x-4">
+                  <div class="bg-white/20 rounded-xl px-6 py-3 backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-all duration-300">
+<h1 class="font-bold text-xl tracking-wide bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">ENVALPRO</h1>
+                    <p class="text-slate-200 text-sm font-medium">Manage to GREEN</p>
+                  </div>
+                  <div class="text-white">
+                    <h2 class="text-2xl font-bold leading-tight">ROAD TO PARIS – Report für energetische Vorprüfung</h2>
+                    <p class="text-slate-200 text-lg font-medium mt-1">{{ getFormattedAddress() }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Property Information Cards -->
+          <div class="p-8" *ngIf="propertyData">
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
+              
+              <!-- Usage Type Card -->
+              <div class="property-info-card bg-gradient-to-br from-slate-700/90 to-slate-800/90 rounded-xl p-5 text-center transition-all duration-600 ease-out hover:transform hover:-translate-y-2 hover:shadow-xl hover:shadow-blue-500/25 border border-slate-600/50 hover:border-blue-400/50 backdrop-blur-sm"
+                   [ngClass]="{
+                     'opacity-0 translate-y-5': !mounted,
+                     'opacity-100 translate-y-0': mounted
+                   }"
+                   style="transition-delay: 0ms;">
+                <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                  </svg>
+                </div>
+                <h3 class="text-blue-300 text-sm font-semibold mb-2 tracking-wide">Nutzungsart</h3>
+                <p class="text-white font-bold text-lg">{{ propertyData.usage }}</p>
+              </div>
+              
+              <!-- Rentable Area Card -->
+              <div class="property-info-card bg-gradient-to-br from-slate-700/90 to-slate-800/90 rounded-xl p-5 text-center transition-all duration-600 ease-out hover:transform hover:-translate-y-2 hover:shadow-xl hover:shadow-green-500/25 border border-slate-600/50 hover:border-green-400/50 backdrop-blur-sm"
+                   [ngClass]="{
+                     'opacity-0 translate-y-5': !mounted,
+                     'opacity-100 translate-y-0': mounted
+                   }"
+                   style="transition-delay: 100ms;">
+                <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 3h18v18H3V3zm2 2v14h14V5H5zm2 2h10v2H7V7zm0 4h7v2H7v-2zm0 4h10v2H7v-2z"/>
+                  </svg>
+                </div>
+                <h3 class="text-green-300 text-sm font-semibold mb-2 tracking-wide">Vermietete Fläche</h3>
+                <p class="text-white font-bold text-lg">{{ propertyData.rentableArea }} <span class="text-sm text-gray-300">m²</span></p>
+              </div>
+              
+              <!-- Commercial Area Card -->
+              <div class="property-info-card bg-gradient-to-br from-slate-700/90 to-slate-800/90 rounded-xl p-5 text-center transition-all duration-600 ease-out hover:transform hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/25 border border-slate-600/50 hover:border-purple-400/50 backdrop-blur-sm"
+                   [ngClass]="{
+                     'opacity-0 translate-y-5': !mounted,
+                     'opacity-100 translate-y-0': mounted
+                   }"
+                   style="transition-delay: 200ms;">
+                <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <svg class="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10z"/>
+                  </svg>
+                </div>
+                <h3 class="text-purple-300 text-sm font-semibold mb-2 tracking-wide">Gewerbefläche</h3>
+                <p class="text-white font-bold text-lg">{{ propertyData.commercialArea }} <span class="text-sm text-gray-300">m²</span></p>
+              </div>
+              
+              <!-- Living Area Card -->
+              <div class="property-info-card bg-gradient-to-br from-slate-700/90 to-slate-800/90 rounded-xl p-5 text-center transition-all duration-600 ease-out hover:transform hover:-translate-y-2 hover:shadow-xl hover:shadow-cyan-500/25 border border-slate-600/50 hover:border-cyan-400/50 backdrop-blur-sm"
+                   [ngClass]="{
+                     'opacity-0 translate-y-5': !mounted,
+                     'opacity-100 translate-y-0': mounted
+                   }"
+                   style="transition-delay: 300ms;">
+                <div class="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <svg class="w-5 h-5 text-cyan-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                  </svg>
+                </div>
+                <h3 class="text-cyan-300 text-sm font-semibold mb-2 tracking-wide">Wohnfläche</h3>
+                <p class="text-white font-bold text-lg">{{ propertyData.livingArea }} <span class="text-sm text-gray-300">m²</span></p>
+              </div>
+              
+              <!-- Build Year Card -->
+              <div class="property-info-card bg-gradient-to-br from-slate-700/90 to-slate-800/90 rounded-xl p-5 text-center transition-all duration-600 ease-out hover:transform hover:-translate-y-2 hover:shadow-xl hover:shadow-orange-500/25 border border-slate-600/50 hover:border-orange-400/50 backdrop-blur-sm"
+                   [ngClass]="{
+                     'opacity-0 translate-y-5': !mounted,
+                     'opacity-100 translate-y-0': mounted
+                   }"
+                   style="transition-delay: 400ms;">
+                <div class="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <svg class="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2-7H5c-1.1 0-2 .9-2 2v1h18V6c0-1.1-.9-2-2-2zM20 19H4v1c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-1z"/>
+                  </svg>
+                </div>
+                <h3 class="text-orange-300 text-sm font-semibold mb-2 tracking-wide">Baujahr</h3>
+                <p class="text-white font-bold text-lg">{{ propertyData.buildYear }}</p>
+                <p class="text-orange-200 text-xs mt-1">{{ getBuildingAge() }} Jahre alt</p>
+              </div>
+              
+              <!-- Energy Carrier Card -->
+              <div class="property-info-card bg-gradient-to-br from-slate-700/90 to-slate-800/90 rounded-xl p-5 text-center transition-all duration-600 ease-out hover:transform hover:-translate-y-2 hover:shadow-xl hover:shadow-red-500/25 border border-slate-600/50 hover:border-red-400/50 backdrop-blur-sm"
+                   [ngClass]="{
+                     'opacity-0 translate-y-5': !mounted,
+                     'opacity-100 translate-y-0': mounted
+                   }"
+                   style="transition-delay: 500ms;">
+                <div class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
+                  <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                  </svg>
+                </div>
+                <h3 class="text-red-300 text-sm font-semibold mb-2 tracking-wide">Energieträger</h3>
+                <p class="text-white font-bold text-sm leading-tight">{{ propertyData.energyCarrier }}</p>
+                <p class="text-red-200 text-xs mt-1">{{ getFormattedEnergyCarrier() }}</p>
+              </div>
+              
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8" *ngIf="energyData">
+              
+              <!-- Energy Status Section -->
+              <div class="lg:col-span-1">
+                <div class="flex items-center mb-6">
+                  <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
+                    <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                  </div>
+                  <h2 class="text-2xl font-bold text-white">Energetischer IST-Zustand</h2>
+                </div>
+                
+                <div class="space-y-4">
+                  
+                  <!-- Energy Consumption Card -->
+                  <div class="energy-status-card bg-gradient-to-r from-blue-600/20 to-blue-700/20 rounded-xl p-6 relative overflow-hidden shimmer-effect transition-all duration-800 ease-out border border-blue-500/30 hover:border-blue-400/50 backdrop-blur-sm hover:shadow-lg hover:shadow-blue-500/25"
+                       [ngClass]="{
+                         'opacity-0 -translate-x-5': !mounted,
+                         'opacity-100 translate-x-0': mounted
+                       }"
+                       style="transition-delay: 600ms;">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <h3 class="text-blue-200 text-sm font-semibold mb-2 tracking-wide uppercase">Energieverbrauch</h3>
+                        <p class="text-white font-bold text-2xl">{{ energyData.consumption.toLocaleString() }} <span class="text-lg text-blue-200">kWh</span></p>
+                      </div>
+                      <div class="w-12 h-12 bg-blue-500/30 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-300" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- CO2 Emissions Card -->
+                  <div class="energy-status-card bg-gradient-to-r from-red-600/20 to-red-700/20 rounded-xl p-6 relative overflow-hidden shimmer-effect transition-all duration-800 ease-out border border-red-500/30 hover:border-red-400/50 backdrop-blur-sm hover:shadow-lg hover:shadow-red-500/25"
+                       [ngClass]="{
+                         'opacity-0 -translate-x-5': !mounted,
+                         'opacity-100 translate-x-0': mounted
+                       }"
+                       style="transition-delay: 700ms;">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <h3 class="text-red-200 text-sm font-semibold mb-2 tracking-wide uppercase">CO₂-Emissionen</h3>
+                        <p class="text-white font-bold text-2xl">{{ energyData.co2Emissions.toLocaleString() }} <span class="text-lg text-red-200">KG</span></p>
+                      </div>
+                      <div class="w-12 h-12 bg-red-500/30 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-red-300" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- CO2 per m2 Card -->
+                  <div class="energy-status-card bg-gradient-to-r from-orange-600/20 to-orange-700/20 rounded-xl p-6 relative overflow-hidden shimmer-effect transition-all duration-800 ease-out border border-orange-500/30 hover:border-orange-400/50 backdrop-blur-sm hover:shadow-lg hover:shadow-orange-500/25"
+                       [ngClass]="{
+                         'opacity-0 -translate-x-5': !mounted,
+                         'opacity-100 translate-x-0': mounted
+                       }"
+                       style="transition-delay: 800ms;">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <h3 class="text-orange-200 text-sm font-semibold mb-2 tracking-wide uppercase">CO₂ pro m²</h3>
+                        <p class="text-white font-bold text-2xl">{{ energyData.co2PerM2 }} <span class="text-lg text-orange-200">kg/m²a</span></p>
+                      </div>
+                      <div class="w-12 h-12 bg-orange-500/30 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-orange-300" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M3 3h18v18H3V3zm2 2v14h14V5H5zm2 2h10v2H7V7zm0 4h7v2H7v-2zm0 4h10v2H7v-2z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- kWh per m2 Card -->
+                  <div class="energy-status-card bg-gradient-to-r from-green-600/20 to-green-700/20 rounded-xl p-6 relative overflow-hidden shimmer-effect transition-all duration-800 ease-out border border-green-500/30 hover:border-green-400/50 backdrop-blur-sm hover:shadow-lg hover:shadow-green-500/25"
+                       [ngClass]="{
+                         'opacity-0 -translate-x-5': !mounted,
+                         'opacity-100 translate-x-0': mounted
+                       }"
+                       style="transition-delay: 900ms;">
+                    <div class="flex items-center justify-between">
+                      <div>
+                        <h3 class="text-green-200 text-sm font-semibold mb-2 tracking-wide uppercase">Verbrauch pro m²</h3>
+                        <p class="text-white font-bold text-2xl">{{ energyData.kwhPerM2 }} <span class="text-lg text-green-200">kWh/m²a</span></p>
+                      </div>
+                      <div class="w-12 h-12 bg-green-500/30 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-300" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M7 14l3-3 3 3 7-7v6h-6M5 18v2h14v-2H5z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <!-- 3D Model Section -->
+              <div class="lg:col-span-1 flex items-center justify-center">
+                <div class="bg-gradient-to-br from-blue-100 to-green-100 rounded-2xl w-full h-96 lg:h-[480px] relative overflow-hidden map-gradient-border transition-all duration-800 ease-out shadow-2xl mt-16 p-12"
+                    [ngClass]="{
+                      'opacity-30 scale-90': !mounted,
+                      'opacity-100 scale-100': mounted
+                    }"
+                    style="transition-delay: 1000ms;">
+                  
+                  <!-- 3D Model Component -->
+                  <app-inline3d-model 
+                    [address]="address?.fullAddress || ''"
+                    class="absolute inset-0 w-full h-full">
+                  </app-inline3d-model>
+                  
+                  <!-- Address overlay -->
+                  <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-lg border border-gray-200 z-10" *ngIf="address">
+                    <p class="text-gray-800 text-sm font-semibold">{{ address.street }}</p>
+                    <p class="text-gray-600 text-xs">{{ address.postalCode }} {{ address.city }}</p>
+                  </div>
+                  
+                  <!-- 3D Model indicator -->
+                  <div class="absolute top-4 right-4 bg-blue-600/90 backdrop-blur-sm rounded-lg px-2 py-1 shadow-lg z-10">
+                    <p class="text-white text-xs font-semibold">3D Modell</p>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <!-- Sustainability Analysis -->
+              <div class="lg:col-span-1">
+                <div class="flex items-center mb-6">
+                  <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
+                    <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  </div>
+                  <h2 class="text-xl font-bold text-white">Nachhaltigkeit und Energie</h2>
+                </div>
+                <p class="text-sm text-gray-300 mb-6 leading-relaxed">
+                  Gebäudebezogene Nachhaltigkeitsanalyse wie EEFKL und Sanierungspotenzial.
+                </p>
+                
+                <!-- Home Type Indicator
+                <div class="mb-4 flex justify-center">
+                  <div class="inline-flex bg-orange-500 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-lg">
+                    {{ getHomeTypeText() }}
+                  </div>
+                </div> -->
+
+                <!-- Sustainability Matrix -->
+                <div class="bg-gradient-to-r from-slate-700/90 to-slate-800/90 rounded-xl p-6 mb-6 relative overflow-hidden border border-slate-600/50 backdrop-blur-sm"
+                     [ngClass]="{
+                       'opacity-0 translate-x-5': !mounted,
+                       'opacity-100 translate-x-0': mounted
+                     }"
+                     style="transition-delay: 1100ms;">
+                  
+                  <!-- Current Level Indicator -->
+                  <div class="absolute top-4 right-4 text-white font-bold text-lg bg-blue-600 rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-blue-400">
+                    {{ sustainabilityMatrix.currentLevel + 1 }}
+                  </div>
+
+                  <!-- Current Potential Display with Small Energy Chart (moved here) -->
+                  <div [ngClass]="{
+                    'bg-green-500': sustainabilityMatrix.currentLevel === 0,
+                    'bg-yellow-500': sustainabilityMatrix.currentLevel === 1,
+                    'bg-orange-500': sustainabilityMatrix.currentLevel === 2,
+                    'bg-red-500': sustainabilityMatrix.currentLevel === 3
+                  }" class="rounded-lg p-4 mb-4 flex items-center shadow-lg">
+                    <div class="relative w-24 h-12 flex items-center justify-center mr-4 bg-white/80 rounded-xl">
+                      <svg viewBox="0 0 120 70" width="96" height="56">
+                        <!-- Green segment (A+, A, B: 0-75 kWh/m²a) = 30% = 54° -->
+                        <path d="M10,60 A50,50 0 0,1 44.642857,17.320508 L60,60 Z" fill="#22c55e"/>
+
+                        <!-- Yellow segment (C, D: 75-130 kWh/m²a) = 22% = 39.6° -->
+                        <path d="M44.642857,17.320508 A50,50 0 0,1 68.301963,10.691056 L60,60 Z" fill="#fbbf24"/>
+
+                        <!-- Orange segment (E, F: 130-200 kWh/m²a) = 28% = 50.4° -->
+                        <path d="M68.301963,10.691056 A50,50 0 0,1 91.92388,28.151363 L60,60 Z" fill="#fb923c"/>
+
+                        <!-- Red segment (G, H: 200-250 kWh/m²a) = 20% = 36° -->
+                        <path d="M91.92388,28.151363 A50,50 0 0,1 110,60 L60,60 Z" fill="#f87171"/>
+
+                        <!-- Arrow positioned at the bottom center of the chart -->
+                        <g [attr.transform]="'rotate(' + getSmallChartArrowAngle() + ' 60 60)'"
+                           [ngClass]="{'arrow-ticker': sustainabilityMatrix.currentLevel === 2}">
+                          <!-- Arrow shaft (upward, slightly higher, taller) -->
+                          <rect x="59.2" y="40" width="1.6" height="20" rx="0.8" fill="#111"/>
+                          <!-- Arrow head (triangle, upward, slightly higher, taller) -->
+                          <polygon points="60,40 64,50 56,50" fill="#111"/>
+                        </g>
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 class="font-bold text-white text-lg">{{ getCurrentPotentialCategory().level }}</h4>
+                      <p class="text-sm text-white/90 font-medium">
+                        {{ getCurrentPotentialCategory().description }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Current Category Display -->
+                  <div class="bg-slate-600/50 rounded-lg p-4">
+                    
+                    <div class="flex items-center space-x-3">
+                      <span class="font-bold text-white text-lg">Nachhaltigkeit</span>
+                      <span class="text-white text-base">Energieeffizienzklasse</span>
+                      <span class="bg-yellow-500 text-white px-3 py-2 rounded-lg font-bold text-sm shadow-lg">{{ sustainabilityData.efficiencyClass }}</span>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Energy Efficiency Scale -->
+                <div class="mb-6 transition-all duration-800 ease-out"
+                     [ngClass]="{
+                       'opacity-0 translate-y-5': !mounted,
+                       'opacity-100 translate-y-0': mounted
+                     }"
+                     style="transition-delay: 1300ms;">
+                  
+                  <!-- Scale Labels -->
+                  <div class="flex justify-between text-xs text-gray-300 mb-2 font-semibold tracking-wider">
+                    <span>A+</span>
+                    <span>A</span>
+                    <span>B</span>
+                    <span>C</span>
+                    <span>D</span>
+                    <span>E</span>
+                    <span>F</span>
+                    <span>G</span>
+                    <span>H</span>
+                  </div>
+                  
+                  <!-- Scale Numbers -->
+                  <div class="flex justify-between text-xs text-gray-400 mb-4 font-mono">
+                    <span>0</span>
+                    <span>25</span>
+                    <span>50</span>
+                    <span>75</span>
+                    <span>100</span>
+                    <span>125</span>
+                    <span>150</span>
+                    <span>175</span>
+                    <span>200</span>
+                    <span>250</span>
+                  </div>
+                  
+                  <!-- Efficiency Scale Bar -->
+                  <div class="relative h-10 bg-gradient-to-r from-green-500 via-yellow-500 via-orange-500 to-red-600 rounded-xl shadow-2xl border-2 border-white/20 mb-16">
+                    <!-- Current Rating Indicator -->
+                    <div class="absolute top-0 bottom-0 w-0.5 bg-white transform -translate-x-0.5 rounded-full shadow-lg z-10"
+                         [style.left.%]="(sustainabilityData.rating / 250) * 100">
+                    </div>
+                    <!-- Rating Label Below -->
+                    <div class="absolute top-12 transform -translate-x-1/2 z-20"
+                         [style.left.%]="(sustainabilityData.rating / 250) * 100">
+                      <div class="relative">
+                        <!-- Arrow pointing up -->
+                        <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-r-[6px] border-b-[8px] border-l-transparent border-r-transparent border-b-black"></div>
+                        <!-- Rating box -->
+                        <div class="bg-black text-white px-3 py-2 rounded-lg text-sm font-bold shadow-2xl border border-gray-600 whitespace-nowrap">
+                          {{ sustainabilityData.rating }} kWh
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+<style>
+/* energy-performance.component.css - Enhanced Styles */
+/* Custom animations that Tailwind doesn't provide */
+@keyframes arrow-ticker {
+  0% { transform: rotate(-3deg) scale(1); }
+  20% { transform: rotate(3deg) scale(1.05); }
+  40% { transform: rotate(-2deg) scale(1.02); }
+  60% { transform: rotate(2deg) scale(1.04); }
+  80% { transform: rotate(-1deg) scale(1.01); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.arrow-ticker {
+  animation: arrow-ticker 0.7s cubic-bezier(0.4,0,0.2,1) infinite;
+  transform-box: fill-box;
+  transform-origin: 60px 60px;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Enhanced utility classes */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-slide-in-left {
+  animation: slideInFromLeft 0.8s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInFromRight 0.8s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.6s ease-out;
+}
+
+/* Animation delays */
+.delay-0 { animation-delay: 0s; }
+.delay-2 { animation-delay: 2s; }
+.delay-4 { animation-delay: 4s; }
+
+/* Enhanced property info cards */
+.property-info-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.property-info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.property-info-card:hover::before {
+  left: 100%;
+}
+
+/* Enhanced energy status cards */
+.energy-status-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.energy-status-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -50px;
+  width: 50px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: skewX(-15deg);
+  transition: right 0.8s ease;
+}
+
+.energy-status-card:hover::after {
+  right: calc(100% + 50px);
+}
+
+/* Enhanced shimmer effect */
+.shimmer-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.shimmer-effect:hover::before {
+  left: 100%;
+}
+
+/* Enhanced efficiency scale indicator */
+.scale-indicator {
+  position: relative;
+}
+
+/* Enhanced map container with animated border */
+.map-gradient-border {
+  position: relative;
+}
+
+.map-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 1rem;
+  padding: 2px;
+  background: linear-gradient(45deg, #3b82f6, #10b981, #8b5cf6, #f59e0b);
+  background-size: 300% 300%;
+  animation: gradient-shift 4s ease infinite;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Enhanced scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, rgba(59, 130, 246, 0.6), rgba(16, 185, 129, 0.6));
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, rgba(59, 130, 246, 0.8), rgba(16, 185, 129, 0.8));
+}
+
+/* Responsive design enhancements */
+@media (max-width: 768px) {
+  .property-info-card {
+    padding: 1rem;
+  }
+  
+  .energy-status-card {
+    padding: 1rem;
+  }
+  
+  .property-info-card h3 {
+    font-size: 0.75rem;
+  }
+  
+  .property-info-card p {
+    font-size: 1rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none;
+  }
+  
+  .print-light {
+    background-color: #f8fafc !important;
+    color: #1e293b !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+  
+  .property-info-card,
+  .energy-status-card {
+    break-inside: avoid;
+  }
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-glow,
+  .animate-pulse-glow,
+  .animate-bounce,
+  .animate-ping {
+    animation: none;
+  }
+  
+  .property-info-card::before,
+  .energy-status-card::after,
+  .shimmer-effect::before {
+    display: none;
+  }
+}
+
+/* Focus states for accessibility */
+.property-info-card:focus-within,
+.energy-status-card:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+</style>
